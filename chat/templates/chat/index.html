@@ -10,6 +10,9 @@
     What chat room would you like to enter?<br>
     <input id="room-name-input" type="text" size="100"><br>
     <input id="room-name-submit" type="button" value="Enter">
+    <div class="buttons">
+        <a href="{% url 'logout' %}"> <button class="button">Logout</button></a>
+    </div>
 
     <script>
         document.querySelector('#room-name-input').focus();

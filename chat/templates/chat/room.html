@@ -50,11 +50,13 @@
             let listTag = document.createElement('li')
             let pTag = document.createElement('p')
             pTag.textContent = data.message
-            if(data.username === user){
-                listTag.className = 'sent'
+            if(data.username == username){
+                listTag.className = 'send'
+                pTag.className = 'send-text'
             }
             else{
-                listTag.className = 'reply'
+                listTag.className = 'replies'
+                pTag.className = 'reply-text'
             }
             listTag.appendChild(pTag)
             document.querySelector('#chat-log').appendChild(listTag)

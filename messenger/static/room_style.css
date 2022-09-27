@@ -1,0 +1,48 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+    height: 100%;
+    font-family: 'Roboto';
+    font-size: 16px;
+    background: whitesmoke;
+}
+.messages{
+    display: flex;
+    flex-direction: column;
+}
+ul{
+    list-style-type: none;
+}
+.send{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 5px;
+    margin-right: 50px;
+}
+.replies{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 5px;
+}
+.chat{
+    display: flex;
+}
+.chat-message-input{
+    width: -webkit-fill-available;
+}
+.send-text{
+    border: 0px solid gold;
+    background: wheat ;
+    padding: 5px;
+    border-radius: 10px;
+}
+.reply-text{
+    border: 0px solid gold;
+    background: blueviolet ;
+    padding: 5px;
+    border-radius: 10px;
+}

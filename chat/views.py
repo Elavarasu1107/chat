@@ -16,8 +16,7 @@ def chat(request):
 
 def room(request, room_name):
     messages = Messages.objects.filter(room_name=room_name)
-    return render(request, 'chat/room.html', {'room_name': room_name, 'user': request.user.username,
-                                              'messages': messages})
+    return render(request, 'chat/room.html', {'room_name': room_name, 'user': request.user.username, 'messages': messages})
 
 
 class UserRegistration(View):

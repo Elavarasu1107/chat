@@ -1,18 +1,35 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'room_style.css' %}"/>
     <title>Chat Room</title>
 </head>
 <body>
-    <textarea id="chat-log" cols="100" rows="20">{% for message in messages %}
-        {{ message.username }}: {{ message.message }}{% endfor %}
-    </textarea><br>
-    <input id="chat-message-input" type="text" size="100"><br>
-    <input id="chat-message-submit" type="button" value="Send">
-    <div class="buttons">
+    <div class="messages">
+        <ul class="messages" id="chat-log">
+            {% for message in messages %}
+                {% if message.username == user %}
+                    <li class="send">
+                        <p class="send-text">{{ message.message }}</p>
+                    </li>
+                {% endif %}
+                {% if message.username != user %}
+                    <li class="replies">
+                        <p class="reply-text">{{ message.message }}</p>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="chat">
+        <input class="chat-message-input" id="chat-message-input" type="text"><br>
+        <input id="chat-message-submit" type="button" value="Send">    
+    </div>
+    <div class="buttons-chat">
         <a href="{% url 'logout' %}"> <button class="button">Logout</button></a>
     </div>
     {{ room_name|json_script:"room-name" }}
@@ -30,7 +47,17 @@
 
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.username + ': ' + data.message + '\n');
+            let listTag = document.createElement('li')
+            let pTag = document.createElement('p')
+            pTag.textContent = data.message
+            if(data.username === user){
+                listTag.className = 'sent'
+            }
+            else{
+                listTag.className = 'reply'
+            }
+            listTag.appendChild(pTag)
+            document.querySelector('#chat-log').appendChild(listTag)
         };
 
         chatSocket.onclose = function(e) {
@@ -39,7 +66,7 @@
 
         document.querySelector('#chat-message-input').focus();
         document.querySelector('#chat-message-input').onkeyup = function(e) {
-            if (e.keyCode === 13) {  // enter, return
+            if (e.keyCode === 13) { 
                 document.querySelector('#chat-message-submit').click();
             }
         };

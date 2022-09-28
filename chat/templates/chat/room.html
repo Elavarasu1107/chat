@@ -9,32 +9,37 @@
     <title>Chat Room</title>
 </head>
 <body>
-    <div class="messages">
-        <ul class="messages" id="chat-log">
-            {% for message in messages %}
-                {% if message.username == user %}
-                    <li class="send">
-                        <p class="send-text">{{ message.message }}</p>
-                    </li>
-                {% endif %}
-                {% if message.username != user %}
-                    <li class="replies">
-                        <p class="reply-text">{{ message.message }}</p>
-                    </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
+    <div class="chat-area">
+        <div class="messages">
+            <ul class="messages" id="chat-log">
+                {% for message in messages %}
+                    {% if message.username == user %}
+                        <li class="send">
+                            <p class="send-text">{{ message.message }}</p>
+                        </li>
+                    {% endif %}
+                    {% if message.username != user %}
+                        <li class="replies">
+                            <p class="reply-text">{{ message.message }}</p>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        <nav class="chat">
+            <div class="buttons-chat">
+                <a href="{% url 'logout' %}"> <button class="button">Logout</button></a>
+            </div>
+            <input class="chat-message-input" id="chat-message-input" type="text"><br>
+            <input id="chat-message-submit" type="button" value="Send">    
+        </nav>
+        
     </div>
-    <div class="chat">
-        <input class="chat-message-input" id="chat-message-input" type="text"><br>
-        <input id="chat-message-submit" type="button" value="Send">    
-    </div>
-    <div class="buttons-chat">
-        <a href="{% url 'logout' %}"> <button class="button">Logout</button></a>
-    </div>
+    
     {{ room_name|json_script:"room-name" }}
     {{ user|json_script:"user" }}
     <script>
+        window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
         const username = JSON.parse(document.getElementById('user').textContent);
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
         const chatSocket = new WebSocket(
@@ -60,6 +65,7 @@
             }
             listTag.appendChild(pTag)
             document.querySelector('#chat-log').appendChild(listTag)
+            window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
         };
 
         chatSocket.onclose = function(e) {

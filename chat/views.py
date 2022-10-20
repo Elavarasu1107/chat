@@ -11,7 +11,7 @@ logger = logging.getLogger()
 
 
 def chat(request):
-    return render(request, 'chat/index.html')
+    return render(request, 'chat/room.html', {'room_name': "", 'user': request.user.username})
 
 
 def room(request, room_name):

@@ -6,6 +6,7 @@ body{
     border: 0px solid gold;
     margin: auto;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background: ghostwhite;

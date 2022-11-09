@@ -3,22 +3,6 @@ const roomName = JSON.parse(document.getElementById('room-name').textContent);
 let scroll = document.querySelector('.chat-area')
 scroll.scrollTop = scroll.scrollHeight
 
-document.querySelector('#room-name-input').focus();
-document.querySelector('#room-name-input').onkeyup = function(e) {
-    if (e.keyCode === 13) { 
-        document.querySelector('#room-name-submit').click();
-    }
-};
-
-document.querySelector('#room-name-submit').onclick = function(e) {
-    var roomName = document.querySelector('#room-name-input').value;
-    if(roomName != "" && roomName != null){
-        window.location.pathname = '/chat/' + roomName + '/';
-    }
-    else{
-        window.location.pathname = '/chat/';
-    }
-};
 
 const chatSocket = new WebSocket(
     'ws://'

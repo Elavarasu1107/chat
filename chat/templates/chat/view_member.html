@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="{% static 'index_style.css' %}"/> -->
+    <title>Messenger</title>
+</head>
+<body>
+    <div class="group_list">
+        <table class="group_table" border="2">
+            <thead class="table_head">
+                <tr>
+                    <th>User Name</th>
+                    <th>Remove</th>    
+                </tr>
+            </thead>
+            <tbody>
+                {% for member in members %}
+                <tr>
+                    <td>{{ member.username }}</td>
+                    <td><a href="{% url 'delete_members' group_id=group.id user_id=member.id %}">Delete</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="room">
+        <div class="buttons-room">
+            <a href="{% url 'logout' %}"><button class="button">Logout</button></a>
+            <a href="{% url 'get_group' %}"><button class="button">Go Back</button></a>
+        </div>
+    </div>
+</body>
+</html>

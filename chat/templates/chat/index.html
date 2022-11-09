@@ -1,31 +1,60 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="{% static 'index_style.css' %}"/> -->
     <title>Messenger</title>
 </head>
 <body>
-    What chat room would you like to enter?<br>
-    <input id="room-name-input" type="text" size="100"><br>
-    <input id="room-name-submit" type="button" value="Enter">
-    <div class="buttons">
-        <a href="{% url 'logout' %}"> <button class="button">Logout</button></a>
+    <div class="group_list">
+        <table class="group_table" border="2">
+            <thead class="table_head">
+                <tr>
+                    <th>Group Name</th>
+                    <th>Edit</th>
+                    <th>Delete</th> 
+                    <th>View Members</th> 
+                    <th>Add Members</th>  
+                </tr>
+            </thead>
+            <tbody>
+                {% for group in groups %}
+                <tr>
+                    <td><a id="room-name-input" href="{% url 'room' room_name=group.group_name %}">{{ group.group_name }}</a></td>
+                    <td><a href="{% url 'update_group' id=group.id %}">Edit</a></td>
+                    <td><a href="{% url 'delete_group' id=group.id %}">Delete</a></td>
+                    <td><a href="{% url 'get_members' id=group.id %}">View</a></td>
+                    <td><a href="{% url 'add_members' group_id=group.id %}">Add</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-
-    <script>
-        document.querySelector('#room-name-input').focus();
-        document.querySelector('#room-name-input').onkeyup = function(e) {
-            if (e.keyCode === 13) {  // enter, return
-                document.querySelector('#room-name-submit').click();
-            }
-        };
-
-        document.querySelector('#room-name-submit').onclick = function(e) {
-            var roomName = document.querySelector('#room-name-input').value;
-            window.location.pathname = '/chat/' + roomName + '/';
-        };
-    </script>
+    <div class="room">
+        <div class="buttons-room">
+            <a href="{% url 'create_group' %}"><button class="button">Create New Group</button></a>
+            <a href="{% url 'logout' %}"><button class="button">Logout</button></a>
+        </div>
+    </div>
 </body>
+<script>
+    document.querySelector('#room-name-input').onkeyup = function(e) {
+        if (e.keyCode === 13) { 
+            document.querySelector('#room-name-submit').click();
+        }
+    };
+
+    document.querySelector('#room-name-input').onclick = function(e) {
+        var roomName = document.querySelector('#room-name-input').value;
+        if(roomName != "" && roomName != null){
+            window.location.pathname = '/chat/' + roomName + '/';
+        }
+        else{
+            window.location.pathname = '/chat/';
+        }
+    };
+</script>
 </html>
